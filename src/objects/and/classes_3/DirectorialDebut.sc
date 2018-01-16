@@ -1,18 +1,35 @@
 class Director(val first: String = "first",
                val last : String = "last"
                ,val yearOfBirth : Int){
-  def name (): Unit ={
-  val fullName : String = "Hi " + first + last
+  def name (): String ={
+        first + last
   }
+
+  def copy(
+            firstName: String = this.first,
+            lastName: String = this.last,
+            yearOfBirth: Int = this.yearOfBirth) =
+    new Director(firstName, lastName, yearOfBirth)
 }
 
 class Film(val name: String,val yearOfRelease : Int,
            val imdbRaiting : Double
            ,val director : Director){
   def directorsAge(director : Director):Int = {
-    director.yearOfBirth
+    director.yearOfBirth - yearOfRelease
   }
-  def isDirectedBy(director : Director):Boolean = true
+  def isDirectedBy(directorr : Director):Boolean = {
+    if(director.name.equals(directorr.name()))
+    true
+    else false
+  }
+
+  def copy(name : String = this.name,
+  yearOfRelease : Int = this.yearOfRelease,
+  imdbRaiting : Double = this.imdbRaiting,
+  director : Director = this.director) :
+  Film =
+    {new Film(name,yearOfRelease,imdbRaiting,director)}
 }
 
 val eastwood= new Director("Clint", "Eastwood", 1930)
@@ -37,7 +54,16 @@ val thomasCrownAffair = new Film("The Thomas Crown Affair", 1999, 6.8, mcTiernan
 eastwood.yearOfBirth         // should be 1930
 dieHard.director.name        // should be "John McTiernan"
 invictus.isDirectedBy(nolan) // should be false
+invictus.isDirectedBy(eastwood) // should be true
 
+
+
+highPlainsDrifter.copy(name = "L'homme des hautes plaines")
+// returns Film("L'homme des hautes plaines", 1973, 7.7, /* etc */)
+thomasCrownAffair.copy(yearOfRelease = 1968, director = new Director("Norman", "Jewison", 1926))
+// returns Film("The Thomas Crown Affair", 1926, /* etc */)
+inception.copy().copy().copy()
+// returns a new copy of `inception`
 
 
 
