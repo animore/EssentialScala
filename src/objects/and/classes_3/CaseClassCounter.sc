@@ -22,7 +22,7 @@ Counter().inc.dec == Counter().dec.inc
 
 //----
 
-case class Person(val firstname : String,val lastname : String){
+case class Person(firstname : String,lastname : String){
   def name = firstname + " " + lastname
 }
 
@@ -37,9 +37,10 @@ object BestFootballer{
   def awards(person : Person) : String =
     person match {
       case Person("Lionel","Messi") => "You are the greatest footballer"
-//      case Person("Cristiano","Ronaldo") => "You aint even close to greatest footballer"
-//      case Person("Neymar","Silva") => "Good but not best"
+      case Person("Cristiano","Ronaldo") => "You aint even close to greatest footballer"
+      case Person("Neymar","Silva") => "Good but not best"
+      case _ => "Unknown Footballer"
     }
-
-  BestFootballer.awards(Person("Neymar","Silva"))
 }
+
+BestFootballer.awards(Person("Lionel","Messi"))
