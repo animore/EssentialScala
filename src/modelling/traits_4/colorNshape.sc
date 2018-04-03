@@ -1,4 +1,4 @@
-trait Color{
+sealed trait Color{
   def Red:Int
   def Green:Int
   def Blue:Int
@@ -36,13 +36,14 @@ case class Pink(r:Int,g:Int,b:Int) extends Color{
   override def LightOrDark:String=if(r>50 || g>50 || b>50) "Dark" else "Light"
 }
 
-sealed trait Shapes{
+sealed trait Shapes {
   def sides: Int
   def perimeter: Double
   def area: Double
+  def color : Color
 }
 
-trait Rectangular extends Shapes with Color{
+trait Rectangular extends Shapes{
 
   def height: Double
   def width: Double
@@ -60,13 +61,7 @@ case class Rectangle(length:Double,breadth:Double,color:Color) extends Rectangul
 
   override def width: Double = breadth
 
-  override def Red: Int = color.Red
 
-  override def Green: Int = color.Green
-
-  override def Blue: Int = color.Blue
-
-  override def LightOrDark: String = color.LightOrDark
 }
 
 case class Square(side: Double,color:Color) extends Rectangular {
@@ -74,13 +69,7 @@ case class Square(side: Double,color:Color) extends Rectangular {
 
   override def width: Double = side
 
-  override def Red: Int = color.Red
 
-  override def Green: Int = color.Green
-
-  override def Blue: Int = color.Blue
-
-  override def LightOrDark: String = color.LightOrDark
 }
 
 case class Circle(radius: Double,color:Color) extends Shapes with Color{
@@ -102,7 +91,16 @@ case class Circle(radius: Double,color:Color) extends Shapes with Color{
 
 object Draw{
   def apply(shape: Shapes): String = shape match {
-case Rectangle(length,breadth,Red(r,g,b)) => ""
+case Rectangle(length,breadth,color) => s" A ${Draw(color)} rectangle of breadth $breadth"
+case _ => "Other Colors and other shapes"
+  }
+
+  def apply(color : Color): String = color match{
+    case Red(r,g,b) => "Red"
+    case Yellow(r,g,b) => "Yellow"
+    case Pink(r,g,b) => "Pink"
   }
 }
+
+Draw(Rectangle(3,4,Red(50,60,70)))
 
